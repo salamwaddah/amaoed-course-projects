@@ -3,7 +3,6 @@
 // You can use an IF statement to eliminate the initial space for the first row.
 
 #include <iostream>
-
 using namespace std;
 
 int main()
