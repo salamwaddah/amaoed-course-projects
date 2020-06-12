@@ -17,7 +17,13 @@ int main()
 		cin >> n[i];
 	}
 
-	cout << "The numbers are: " << n[0] << ", " << n[1] << ", " << n[2] << ", " << n[3] << ", " << n[4] << endl;
+	cout << "The numbers are: ";
+
+	for (int i = 0; i < 5; i++) {
+		cout << n[i] << ", ";
+	}
+
+	cout << endl;
 
 	return EXIT_SUCCESS;
 }
