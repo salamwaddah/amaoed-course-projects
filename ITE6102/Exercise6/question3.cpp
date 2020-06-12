@@ -2,11 +2,6 @@
 // [Hint]
 // You can use an IF statement to eliminate the initial space for the first row.
 
-#include <limits>
-#include <cstring>
-#include <float.h>
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
 
 using namespace std;
