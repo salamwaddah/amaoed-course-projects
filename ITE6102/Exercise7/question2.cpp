@@ -34,6 +34,6 @@ int main() {
 	}
 	else
 	{
-		cout << "Mininum height is 1 and maximum is 10";
+		cout << "Mininum height is 1 and maximum is 10" << endl;
 	}
 }
