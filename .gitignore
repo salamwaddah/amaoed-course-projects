@@ -33,3 +33,7 @@
 
 # OS
 .DS_Store
+
+# Idea
+.idea
+*.iml
