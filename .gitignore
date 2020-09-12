@@ -47,4 +47,5 @@
 
 # Idea
 .idea
+.vscode
 *.iml
