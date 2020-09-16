@@ -49,7 +49,6 @@ public class Lab2_Alaraj_Abdulsalam {
         int maxInteger = (firstInteger > secondInteger) ? firstInteger : secondInteger;
         int minInteger = (firstInteger < secondInteger) ? firstInteger : secondInteger;
 
-
         System.out.println("Task two");
 
         System.out.println("First integer: " + firstInteger);
