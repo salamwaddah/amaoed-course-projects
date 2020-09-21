@@ -1,5 +1,5 @@
 /**
- * ITE6104 - Lab 4
+ * ITE6104 - Lab 5
  * Minimum and Maximum Number in the Array
  * Abdulsalam Alaraj
  * AMA Computer University
