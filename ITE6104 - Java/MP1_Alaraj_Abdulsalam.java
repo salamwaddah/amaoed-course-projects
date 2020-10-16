@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 
 /**
  * 1.The program should display a menu as follows:
@@ -25,6 +24,8 @@ public class MP1_Alaraj_Abdulsalam {
             System.out.println("[1] Prime or Composite");
             System.out.println("[2] All Prime Numbers");
             System.out.println("[3] Exit");
+
+            System.out.print("Choose from menu: ");
 
             Scanner scan = new Scanner(System.in);
             int choice = scan.nextInt();
