@@ -9,10 +9,7 @@ public class Lab7_AddressBook {
     private int mobileNumber;
     private String emailAddress;
 
-    public int count = -1;
-
     public Lab7_AddressBook() {
-        this.count++;
     }
 
     public String getName() {
