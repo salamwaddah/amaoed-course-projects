@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
  * @author salam
  */
 public class ClientAlaraj {
@@ -17,51 +16,113 @@ public class ClientAlaraj {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
         List<CreditAlaraj> accountList = new ArrayList<>();
 
-        boolean loop;
-
-        Scanner scanner = new Scanner(System.in);
+        boolean loop = false;
 
         do {
             displayMainMenu();
 
-            int choice = scanner.nextInt();
+            boolean validChoice;
+            int choice = 0;
+
+            do {
+                validChoice = true;
+
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    choice = scanner.nextInt();
+                } catch (Exception e) {
+                    System.out.println("INVALID INPUT: menu choice");
+                    validChoice = false;
+                }
+
+            } while (!validChoice);
 
             switch (choice) {
-                case 1:
+                case 1 -> {
                     CreditAlaraj newAccount = new CreditAlaraj();
 
-                    System.out.println("Name: ");
-                    newAccount.setName(scanner.next());
+                    boolean validName;
+                    String name = "";
+                    do {
+                        validName = true;
+                        System.out.println("Name: ");
 
-                    System.out.println("Annual Income: ");
+                        try {
+                            Scanner nameScanner = new Scanner(System.in);
+                            name += nameScanner.nextLine();
 
-                    try {
-                        newAccount.setAnnualIncome(scanner.nextDouble());
+                            if (name.equals("")) {
+                                System.out.println("INVALID INPUT: name must not be empty");
+                                validName = false;
+                            }
 
-                        System.out.println("Credit account successfully created!\n");
-                        newAccount.printNewAccountDetails();
-                        accountList.add(newAccount);
+                            newAccount.setName(name);
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT: name");
+                            validName = false;
+                        }
 
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                        loop = true;
-                        break;
-                    }
+                    } while (!validName);
 
+
+                    boolean validAnnualIncome;
+                    do {
+                        System.out.println("Annual Income: ");
+
+                        validAnnualIncome = true;
+
+                        try {
+                            Scanner incomeScanner = new Scanner(System.in);
+                            newAccount.setAnnualIncome(incomeScanner.nextDouble());
+                            System.out.println("Credit account successfully created!\n");
+                            newAccount.printNewAccountDetails();
+                            accountList.add(newAccount);
+
+                        } catch (Exception e) {
+                            if (e.getMessage() == null) {
+                                System.out.println("INVALID INPUT: annual income try again");
+                            } else {
+                                System.out.println(e.getMessage());
+                            }
+
+                            validAnnualIncome = false;
+                        }
+
+                    } while (!validAnnualIncome);
                     loop = true;
-                    break;
-                case 2:
+                }
+
+                case 2 -> {
                     if (accountList.isEmpty()) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
                     }
 
-                    System.out.println("Input account number to get balance: ");
-                    int accountNumberToFind = scanner.nextInt();
+                    boolean validAccountNumber;
+                    int accountNumberToFind = 0;
+
+                    do {
+                        validAccountNumber = true;
+
+                        System.out.println("Input account number to get balance: ");
+
+                        try {
+                            Scanner accountNumberScanner = new Scanner(System.in);
+                            accountNumberToFind = accountNumberScanner.nextInt();
+
+                            if (accountNumberToFind < 1000) {
+                                System.out.println("INVALID INPUT: account number must be 4 digits");
+                                validAccountNumber = false;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT: account number");
+                            validAccountNumber = false;
+                        }
+
+                    } while (!validAccountNumber);
 
                     if (validateAcctNumber(accountNumberToFind, accountList)) {
                         for (CreditAlaraj account : accountList) {
@@ -74,50 +135,88 @@ public class ClientAlaraj {
                     } else {
                         System.out.println("This account number " + accountNumberToFind + " does not exist!!");
                     }
-
-                    loop = true;
-                    break;
-
-                case 3:
+                }
+                case 3 -> {
                     if (accountList.isEmpty()) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
                     }
 
-                    System.out.println("Input account number: ");
-                    int accountNumberToPurchase = scanner.nextInt();
+                    boolean validAccountNumber;
+                    int accountNumberToPurchase = 0;
+
+                    do {
+                        validAccountNumber = true;
+
+                        System.out.println("Input account number to get purchases: ");
+
+                        try {
+                            Scanner accountNumberScanner = new Scanner(System.in);
+                            accountNumberToPurchase = accountNumberScanner.nextInt();
+
+                            if (accountNumberToPurchase < 1000) {
+                                System.out.println("INVALID INPUT: account number must be 4 digits");
+                                validAccountNumber = false;
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT: account number");
+                            validAccountNumber = false;
+                        }
+
+
+                    } while (!validAccountNumber);
 
                     if (validateAcctNumber(accountNumberToPurchase, accountList)) {
-
                         for (CreditAlaraj account : accountList) {
                             if (account.getAccountNo() == accountNumberToPurchase) {
+
                                 try {
                                     account.purchase();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
-                                    loop = true;
-                                    break;
-                                }
 
-                                break;
+                                }
                             }
                         }
                     } else {
-                        System.out.println("Cannot deposit in account " + accountNumberToPurchase + " because it does not exist!!");
+                        System.out.println("Cannot find purchases for account " + accountNumberToPurchase + " because it does not exist!!");
                     }
 
-                    loop = true;
-                    break;
-                case 4:
+
+                }
+                case 4 -> {
                     if (accountList.isEmpty()) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
                     }
 
-                    System.out.println("Input account number: ");
-                    int accountNumberToDeposit = scanner.nextInt();
+                    boolean validDepositAccount;
+                    int accountNumberToDeposit = 0;
+
+                    do {
+                        validDepositAccount = true;
+
+                        System.out.println("Input account number: ");
+
+                        try {
+
+                            Scanner depositScanner = new Scanner(System.in);
+                            accountNumberToDeposit = depositScanner.nextInt();
+
+                            if (accountNumberToDeposit < 1000) {
+                                System.out.println("INVALID INPUT: account number must be 4 digits");
+                                validDepositAccount = false;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT: deposit account number");
+                            validDepositAccount = false;
+                        }
+
+                    } while (!validDepositAccount);
+
 
                     if (validateAcctNumber(accountNumberToDeposit, accountList)) {
 
@@ -127,7 +226,6 @@ public class ClientAlaraj {
                                     account.credit();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
-                                    loop = true;
                                     break;
                                 }
 
@@ -137,18 +235,37 @@ public class ClientAlaraj {
                     } else {
                         System.out.println("Cannot deposit in account " + accountNumberToDeposit + " because it does not exist!!");
                     }
-
-                    loop = true;
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     if (accountList.isEmpty()) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
                     }
 
-                    System.out.println("Input account number to get close: ");
-                    int accountNumberToClose = scanner.nextInt();
+                    boolean validClosureNumber;
+                    int accountNumberToClose = 0;
+
+                    do {
+                        validClosureNumber = true;
+
+                        System.out.println("Input account number to get close: ");
+
+                        try {
+                            Scanner closureScanner = new Scanner(System.in);
+                            accountNumberToClose = closureScanner.nextInt();
+
+                            if (accountNumberToClose < 1000) {
+                                System.out.println("INVALID INPUT: account number must be 4 digits");
+                                validClosureNumber = false;
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("INVALID INPUT: account number to close");
+                            validClosureNumber = false;
+                        }
+
+                    } while (!validClosureNumber);
 
                     if (validateAcctNumber(accountNumberToClose, accountList)) {
                         for (CreditAlaraj account : accountList) {
@@ -159,7 +276,6 @@ public class ClientAlaraj {
                                     accountList.remove(account);
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
-                                    loop = true;
                                     break;
                                 }
 
@@ -169,18 +285,15 @@ public class ClientAlaraj {
                     } else {
                         System.out.println("Cannot close account " + accountNumberToClose + " because it does not exist!!");
                     }
-
-                    loop = true;
-                    break;
-
-                case 6:
+                }
+                case 6 -> {
                     System.out.println("\nGood bye!\n");
                     loop = false;
-                    break;
-                default:
+                }
+                default -> {
                     displayInvalidMenuOptionError();
                     loop = true;
-                    break;
+                }
             }
 
         } while (loop);

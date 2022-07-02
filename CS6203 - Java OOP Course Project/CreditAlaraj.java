@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 /**
- *
  * @author salam
  */
 public class CreditAlaraj {
@@ -33,10 +32,6 @@ public class CreditAlaraj {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getAnnualIncome() {
-        return creditAccNo;
     }
 
     public int getCreditBalance() {
@@ -97,11 +92,21 @@ public class CreditAlaraj {
     }
 
     public void closeAccount() throws Exception {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("To confirm account closure you must pay your credit balance " + getCreditBalance() + " ... type (yes) to confirm ");
+        boolean validAccountNumber;
+        String answer = "";
+        do {
+            validAccountNumber = true;
 
-        String answer = scanner.next();
+            System.out.println("To confirm account closure you must pay your credit balance " + getCreditBalance() + " ... type (yes) to confirm ");
+
+            try {
+                Scanner scanner = new Scanner(System.in);
+                answer = scanner.next();
+            } catch (Exception e) {
+                validAccountNumber = false;
+            }
+        } while (!validAccountNumber);
 
         if (answer.equals("yes")) {
             System.out.println("Thank you for your payment! Account closed!!");
@@ -115,19 +120,34 @@ public class CreditAlaraj {
             throw new Exception("Your credit balance is zero. You dont need to pay anything");
         }
 
-        Scanner scanner = new Scanner(System.in);
+        boolean validCreditAmount;
+        int creditAmount = 0;
 
-        System.out.println("Input amount of payment no less than (PHP 1) and not greater than " + getCreditBalance() + ": ");
+        do {
+            validCreditAmount = true;
 
-        int creditAmount = scanner.nextInt();
+            System.out.println("Input amount of payment no less than (PHP 1) and not greater than " + getCreditBalance() + ": ");
 
-        if (creditAmount < 1) {
-            throw new Exception("You cannot pay less than PHP 1");
-        }
+            try {
+                Scanner scanner = new Scanner(System.in);
+                creditAmount = scanner.nextInt();
 
-        if (creditAmount > getCreditBalance()) {
-            throw new Exception("You cannot pay more than your credit balance: " + getCreditBalance());
-        }
+                if (creditAmount < 1) {
+                    System.out.println("INVALID INPUT: You cannot pay less than PHP 1");
+                    validCreditAmount = false;
+                }
+
+                if (creditAmount > getCreditBalance()) {
+                    System.out.println("You cannot pay more than your credit balance: " + getCreditBalance());
+                    validCreditAmount = false;
+                }
+
+            } catch (Exception e) {
+                System.out.println("INVALID INPUT: credit amount not valid");
+                validCreditAmount = false;
+            }
+
+        } while (!validCreditAmount);
 
         setCreditBalance(getCreditBalance() - creditAmount);
 
@@ -138,17 +158,38 @@ public class CreditAlaraj {
         return (int) this.creditLimit - creditBalance;
     }
 
-    public void purchase() throws Exception {
+    public void purchase() {
 
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Input purchase amount of payment no less than (PHP 1) and not greater than allowed purchase ammount " + allowedPurchaseLimit() + ": ");
+        boolean validPurchaseInput;
 
-        int purchaseAmount = scanner.nextInt();
+        int purchaseAmount = 0;
 
-        if (purchaseAmount > allowedPurchaseLimit()) {
-            throw new Exception("You cannot purchase more than your allow purchase limit");
-        }
+        do {
+            validPurchaseInput = true;
+
+            System.out.println("Input purchase amount of payment no less than (PHP 1) and not greater than allowed purchase amount " + allowedPurchaseLimit() + ": ");
+
+            try {
+                Scanner scanner = new Scanner(System.in);
+                purchaseAmount = scanner.nextInt();
+
+                if (purchaseAmount == 0) {
+                    System.out.println("INVALID INPUT: purchase amount must be NOT be 0");
+                    validPurchaseInput = false;
+                }
+
+                if (purchaseAmount > allowedPurchaseLimit()) {
+                    System.out.println("You cannot purchase more than your allowed purchase limit");
+                    validPurchaseInput = false;
+                }
+
+            } catch (Exception e) {
+                System.out.println("INVALID INPUT: purchase amount not valid");
+                validPurchaseInput = false;
+            }
+
+        } while (!validPurchaseInput);
 
         setCreditBalance(getCreditBalance() + purchaseAmount);
 
@@ -156,5 +197,4 @@ public class CreditAlaraj {
 
         setCreditBalance(getCreditBalance() + (int) interest);
     }
-
 }
