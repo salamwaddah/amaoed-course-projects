@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * @author salam
+ * @author abdulsalam
  */
 public class ClientAlaraj {
 
@@ -37,7 +30,6 @@ public class ClientAlaraj {
                     System.out.println("INVALID INPUT: menu choice");
                     validChoice = false;
                 }
-
             } while (!validChoice);
 
             switch (choice) {
@@ -66,7 +58,6 @@ public class ClientAlaraj {
                         }
 
                     } while (!validName);
-
 
                     boolean validAnnualIncome;
                     do {
@@ -167,7 +158,6 @@ public class ClientAlaraj {
                             validAccountNumber = false;
                         }
 
-
                     } while (!validAccountNumber);
 
                     if (validateAcctNumber(accountNumberToPurchase, ca)) {
@@ -214,7 +204,6 @@ public class ClientAlaraj {
                         }
 
                     } while (!validDepositAccount);
-
 
                     if (validateAcctNumber(accountNumberToDeposit, ca)) {
 
@@ -294,7 +283,6 @@ public class ClientAlaraj {
             }
 
         } while (loop);
-
     }
 
     public static void displayMainMenu() {
