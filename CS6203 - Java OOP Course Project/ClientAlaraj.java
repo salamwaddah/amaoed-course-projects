@@ -16,7 +16,8 @@ public class ClientAlaraj {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        List<CreditAlaraj> accountList = new ArrayList<>();
+
+        CreditAlaraj[] ca = new CreditAlaraj[9999];
 
         boolean loop = false;
 
@@ -78,7 +79,8 @@ public class ClientAlaraj {
                             newAccount.setAnnualIncome(incomeScanner.nextDouble());
                             System.out.println("Credit account successfully created!\n");
                             newAccount.printNewAccountDetails();
-                            accountList.add(newAccount);
+
+                            ca[newAccount.getAccountNo()] = newAccount;
 
                         } catch (Exception e) {
                             if (e.getMessage() == null) {
@@ -95,7 +97,7 @@ public class ClientAlaraj {
                 }
 
                 case 2 -> {
-                    if (accountList.isEmpty()) {
+                    if (objectArrayIsEmpty(ca)) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
@@ -124,9 +126,9 @@ public class ClientAlaraj {
 
                     } while (!validAccountNumber);
 
-                    if (validateAcctNumber(accountNumberToFind, accountList)) {
-                        for (CreditAlaraj account : accountList) {
-                            if (account.getAccountNo() == accountNumberToFind) {
+                    if (validateAcctNumber(accountNumberToFind, ca)) {
+                        for (CreditAlaraj account : ca) {
+                            if (account != null && account.getAccountNo() == accountNumberToFind) {
                                 System.out.println("Account Found!!");
                                 account.printCreditBalanceDetails();
                                 break;
@@ -137,7 +139,7 @@ public class ClientAlaraj {
                     }
                 }
                 case 3 -> {
-                    if (accountList.isEmpty()) {
+                    if (objectArrayIsEmpty(ca)) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
@@ -168,26 +170,22 @@ public class ClientAlaraj {
 
                     } while (!validAccountNumber);
 
-                    if (validateAcctNumber(accountNumberToPurchase, accountList)) {
-                        for (CreditAlaraj account : accountList) {
-                            if (account.getAccountNo() == accountNumberToPurchase) {
-
+                    if (validateAcctNumber(accountNumberToPurchase, ca)) {
+                        for (CreditAlaraj account : ca) {
+                            if (account != null && account.getAccountNo() == accountNumberToPurchase) {
                                 try {
                                     account.purchase();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
-
                                 }
                             }
                         }
                     } else {
                         System.out.println("Cannot find purchases for account " + accountNumberToPurchase + " because it does not exist!!");
                     }
-
-
                 }
                 case 4 -> {
-                    if (accountList.isEmpty()) {
+                    if (objectArrayIsEmpty(ca)) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
@@ -218,10 +216,10 @@ public class ClientAlaraj {
                     } while (!validDepositAccount);
 
 
-                    if (validateAcctNumber(accountNumberToDeposit, accountList)) {
+                    if (validateAcctNumber(accountNumberToDeposit, ca)) {
 
-                        for (CreditAlaraj account : accountList) {
-                            if (account.getAccountNo() == accountNumberToDeposit) {
+                        for (CreditAlaraj account : ca) {
+                            if (account != null && account.getAccountNo() == accountNumberToDeposit) {
                                 try {
                                     account.credit();
                                 } catch (Exception e) {
@@ -237,7 +235,7 @@ public class ClientAlaraj {
                     }
                 }
                 case 5 -> {
-                    if (accountList.isEmpty()) {
+                    if (objectArrayIsEmpty(ca)) {
                         System.out.println("Error: No accounts added yet");
                         loop = true;
                         break;
@@ -267,13 +265,12 @@ public class ClientAlaraj {
 
                     } while (!validClosureNumber);
 
-                    if (validateAcctNumber(accountNumberToClose, accountList)) {
-                        for (CreditAlaraj account : accountList) {
-                            if (account.getAccountNo() == accountNumberToClose) {
-
+                    if (validateAcctNumber(accountNumberToClose, ca)) {
+                        for (CreditAlaraj account : ca) {
+                            if (account != null && account.getAccountNo() == accountNumberToClose) {
                                 try {
                                     account.closeAccount();
-                                    accountList.remove(account);
+                                    ca[accountNumberToClose] = null;
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                     break;
@@ -314,10 +311,14 @@ public class ClientAlaraj {
         System.out.println("\nInvalid menu item, please select from menu\n");
     }
 
-    public static boolean validateAcctNumber(int accountNumber, List<CreditAlaraj> accounts) {
+    public static boolean validateAcctNumber(int accountNumber, CreditAlaraj[] accounts) {
         boolean isValid = false;
 
         for (CreditAlaraj account : accounts) {
+            if (account == null) {
+                continue;
+            }
+
             if (account.getAccountNo() == accountNumber) {
                 isValid = true;
                 break;
@@ -325,5 +326,25 @@ public class ClientAlaraj {
         }
 
         return isValid;
+    }
+
+    /**
+     * Checks if an object array is empty
+     */
+    public static boolean objectArrayIsEmpty(CreditAlaraj[] array) {
+        boolean isEmpty = true;
+        int i = 0;
+
+        for (CreditAlaraj creditAlaraj : array) {
+            if (creditAlaraj != null) {
+                i++;
+            }
+        }
+
+        if (i != 0) {
+            isEmpty = false;
+        }
+
+        return isEmpty;
     }
 }
