@@ -21,12 +21,8 @@ print(array)  # [ 0  5 10 15 20]
 # Write a code that merges the following arrays and in order.
 # Display the output.
 
-X = [1, 4, 8, 7]
-Y = [2, 6, 3, 9]
+X = np.array([1, 4, 8, 7])
+Y = np.array([2, 6, 3, 9])
 
-merged = []
-for x, y in zip(X, Y):
-    merged.append(x)
-    merged.append(y)
-
-print(merged)  # [1, 2, 4, 6, 8, 3, 7, 9]
+merged = np.concatenate((X, Y))
+print(merged)  # [1 4 8 7 2 6 3 9]
