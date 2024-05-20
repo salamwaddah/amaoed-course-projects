@@ -1,5 +1,5 @@
-// In this project you will create a simple image watermarking algorithms using a least significant bit (LSB) substitution. This simple algorithm in SCILAB should be able to accept and manipulate an image and cover it with watermarked image.
-
+// In this project you will create a simple image watermarking algorithms using a least significant bit (LSB) substitution.
+// This simple algorithm in SCILAB should be able to accept and manipulate an image and cover it with watermarked image.
 
 clc
 clear
